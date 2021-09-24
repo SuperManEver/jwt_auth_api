@@ -5,7 +5,7 @@ const { User } = require('../../models')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    User.create({
+    return User.create({
       id: uuidv4(),
       email: 'example@example.com',
       password: '123123',
