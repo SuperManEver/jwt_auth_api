@@ -1,5 +1,7 @@
 const { Model, DataTypes } = require('sequelize')
+
 const { dbConnect } = require('../services/db')
+const { encryptPassword } = require('../services/auth')
 
 class User extends Model {
   /**
@@ -16,7 +18,7 @@ class User extends Model {
 User.init(
   {
     email: { type: DataTypes.STRING, allowNull: false },
-    password_hash: { type: DataTypes.STRING, allowNull: false },
+    password: { type: DataTypes.STRING, allowNull: false },
     username: { type: DataTypes.STRING, allowNull: false }
   },
   {
@@ -31,5 +33,9 @@ User.init(
     ]
   }
 )
+
+User.beforeCreate(async user => {
+  user.password = await encryptPassword(user.password)
+})
 
 module.exports = User
