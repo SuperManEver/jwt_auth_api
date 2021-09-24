@@ -1,37 +1,35 @@
 // const eachOf = require('async/eachOf')
+const eachOfSeries = require('async/eachOfSeries')
 const { v4: uuidv4 } = require('uuid')
 
 const { User } = require('../../models')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return User.create({
-      id: uuidv4(),
-      email: 'example@example.com',
-      password: '123123',
-      username: 'jawosomo'
-    })
+    const usersData = [
+      {
+        id: uuidv4(),
+        email: 'example@example.com',
+        password: '123123',
+        username: 'jawosomo'
+      },
+      {
+        id: uuidv4(),
+        email: 'admin@test.com',
+        password: '123123',
+        username: 'dude_slow'
+      },
+      {
+        id: uuidv4(),
+        email: 'guest@main.com',
+        password: '123123',
+        username: 'bobobo'
+      }
+    ]
 
-    // return queryInterface.bulkInsert('users', [
-    //   {
-    //     id: uuidv4(),
-    //     email: 'example@example.com',
-    //     password: '123123',
-    //     username: 'jawosomo'
-    //   },
-    //   {
-    //     id: uuidv4(),
-    //     email: 'admin@test.com',
-    //     password: '123123',
-    //     username: 'dude_slow'
-    //   },
-    //   {
-    //     id: uuidv4(),
-    //     email: 'guest@main.com',
-    //     password: '123123',
-    //     username: 'bobobo'
-    //   }
-    // ])
+    return eachOfSeries(usersData, async info => {
+      return await User.create(info)
+    })
   },
 
   down: async (queryInterface, Sequelize) => {
