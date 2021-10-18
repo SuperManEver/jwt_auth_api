@@ -1,4 +1,5 @@
 const { Model, DataTypes } = require('sequelize')
+const bcrypt = require('bcrypt')
 
 const { dbConnect } = require('../services/db')
 const { encryptPassword } = require('../services/auth')
@@ -34,8 +35,26 @@ User.init(
   }
 )
 
+User.findById = userId => {
+  return User.findOne({
+    where: {
+      id: userId
+    },
+    raw: true
+  })
+}
+
 User.beforeCreate(async user => {
   user.password = await encryptPassword(user.password)
 })
+
+User.comparePassword = (candidatePassword, password, next) => {
+  bcrypt.compare(candidatePassword, password, (err, same) => {
+    if (err) {
+      return next(err)
+    }
+    next(null, same)
+  })
+}
 
 module.exports = User
