@@ -12,7 +12,7 @@ const {
   ACCESS_TOKEN_TTL = 900,
   REFRESH_TOKEN_TTL = 86400,
   REFRESH_TOKEN_SECRET,
-  ENV
+  ENV = 'development'
 } = process.env
 
 module.exports = {
