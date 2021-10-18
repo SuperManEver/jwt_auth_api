@@ -7,7 +7,7 @@
     "start": "node ./bin/www",
     "start:dev": "nodemon ./bin/www",
     "db:cli": "yarn sequelize-cli",
-    "deploy": "yarn sequelize db:migrate && yarn sequelize db:seed"
+    "deploy": "yarn sequelize db:migrate && yarn sequelize db:seed:all"
   },
   "dependencies": {
     "async": "^3.2.1",
