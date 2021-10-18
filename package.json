@@ -6,7 +6,8 @@
     "sequelize": "./node_modules/.bin/sequelize",
     "start": "node ./bin/www",
     "start:dev": "nodemon ./bin/www",
-    "db:cli": "yarn sequelize-cli"
+    "db:cli": "yarn sequelize-cli",
+    "deploy": "yarn sequelize db:migrate && yarn sequelize db:seed"
   },
   "dependencies": {
     "async": "^3.2.1",
