@@ -1,5 +1,6 @@
 require('dotenv').config()
 
+const createError = require('http-errors')
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
@@ -28,5 +29,9 @@ app.use(cookieParser())
  */
 app.use('/api', authRoutes)
 app.use('/api/profile', profileRoutes)
+
+app.use((req, res, next) => {
+  next(createError(404))
+})
 
 module.exports = app
