@@ -1,5 +1,6 @@
 const { Model, DataTypes } = require('sequelize')
 const bcrypt = require('bcrypt')
+const { v4: uuidv4 } = require('uuid')
 
 const { dbConnect } = require('../services/db')
 const { encryptPassword } = require('../services/auth')
@@ -46,6 +47,10 @@ User.findById = userId => {
 
 User.beforeCreate(async user => {
   user.password = await encryptPassword(user.password)
+})
+
+User.beforeCreate(async user => {
+  user.id = uuidv4()
 })
 
 User.comparePassword = (candidatePassword, password, next) => {
