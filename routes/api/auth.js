@@ -1,4 +1,6 @@
 const express = require('express')
+const R = require('ramda')
+
 const router = express.Router()
 
 const AuthController = require('../../controllers/auth')
@@ -30,8 +32,9 @@ router.post('/register', async (req, res) => {
 
     res.status(201).json(newUser)
   } catch (err) {
-    console.error(err)
-    res.status(400).send({ message: 'Error' })
+    const message = R.pipe(R.prop('errors'), R.head, R.prop('message'))(err)
+
+    res.status(400).send({ message })
   }
 })
 

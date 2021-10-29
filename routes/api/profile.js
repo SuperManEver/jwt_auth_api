@@ -9,7 +9,7 @@ router.post(
   (req, res) => {
     console.log('PROTECTED: ', req.user)
 
-    res.json({ message: 'awesome' })
+    res.json({ message: 'protected route' })
   }
 )
 
