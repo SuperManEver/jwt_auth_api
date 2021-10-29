@@ -1,7 +1,9 @@
 const Joi = require('joi')
 const omit = require('lodash/omit')
+const R = require('ramda')
 
 const { signAccessToken } = require('../services/auth')
+const { User } = require('../models')
 
 const registrationParamsSchema = Joi.object({
   email: Joi.string().email(),
@@ -17,7 +19,14 @@ const loginParamsSchema = Joi.object({
 async function register(userData) {
   const values = await registrationParamsSchema.validateAsync(userData)
 
-  return values
+  const user = await User.create(values, { raw: true })
+
+  const data = R.pipe(
+    R.prop('dataValues'),
+    R.pick(['id', 'email', 'username'])
+  )(user)
+
+  return { user: data, accessToken: signAccessToken(data) }
 }
 
 function login(userObj) {
